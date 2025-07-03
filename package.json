@@ -1,0 +1,22 @@
+{
+  "name": "json-file-crud",
+  "version": "1.0.0",
+  "description": "A generic CRUD library for managing JSON objects in text files",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+  },
+  "keywords": [
+    "crud",
+    "json",
+    "file",
+    "database",
+    "async",
+    "callback"
+  ],
+  "author": "REL",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
