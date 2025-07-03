@@ -1,10 +1,14 @@
 {
   "name": "json-file-crud",
   "version": "1.0.0",
-  "description": "A generic CRUD library for managing JSON objects in text files",
-  "main": "index.js",
+  "title": "JsonFileCRUD",
+  "description": "CRUD operations for JSON files",
+  "main": "./lib/json-file-crud.js",
   "type": "module",
   "scripts": {
+    "start": "node .",
+    "test": "node test/test.js",
+    "prepublishOnly": "npm test"
   },
   "keywords": [
     "crud",
@@ -14,9 +18,18 @@
     "async",
     "callback"
   ],
-  "author": "REL",
-  "license": "MIT",
   "engines": {
     "node": ">=14.0.0"
+  },
+  "homepage": "https://github.com/r-el/json-file-crud",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/r-el/json-file-crud.git"
+  },
+  "bugs": "https://github.com/r-el/json-file-crud/issues",
+  "license": "MIT",
+  "author": {
+    "name": "REL",
+    "url": "https://github.com/r-el"
   }
 }
