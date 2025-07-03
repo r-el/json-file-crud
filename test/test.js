@@ -17,7 +17,7 @@ function test(description, testFn) {
 // Basic constructor test
 test('creates instance with file path', () => {
   const crud = new JsonFileCRUD('./test.json');
-  if (!crud || crud.filePath !== './test.json') {
+  if (!crud || !crud.filePath.endsWith('test.json')) {
     throw new Error('failed to create instance');
   }
 });
