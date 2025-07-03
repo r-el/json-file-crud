@@ -7,7 +7,9 @@
   "type": "module",
   "scripts": {
     "start": "node .",
-    "test": "node test/test.js",
+    "test": "node test/test.js && node test/test-read.js",
+    "test:basic": "node test/test.js",
+    "test:read": "node test/test-read.js",
     "prepublishOnly": "npm test"
   },
   "keywords": [
