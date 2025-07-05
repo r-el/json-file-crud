@@ -1,50 +1,64 @@
 import JsonFileCRUD from "../lib/json-file-crud.js";
 import fs from "fs";
 
-// Simple test setup
+// Test setup
 const testFile = "./test-data.json";
 const testData = [
-  { id: 1, name: "Alice" },
-  { id: 2, name: "Bob" },
+  { id: 1, name: "Ariel" },
+  { id: 2, name: "Yoni" },
 ];
 
-// Setup test file
+// Create test file
 fs.writeFileSync(testFile, JSON.stringify(testData));
 
 const crud = new JsonFileCRUD(testFile);
+let passed = 0;
+let total = 0;
+let completed = 0;
 
-// Test readAll
-crud.readAll((err, items) => {
-  if (err) {
-    console.log("✗ readAll failed:", err.message);
-  } else if (items.length === 2) {
-    console.log("✓ readAll works");
-  } else {
-    console.log("✗ readAll wrong count");
-  }
+function test(description, testFn) {
+  total++;
+  testFn((err, success) => {
+    completed++;
+    
+    if (err || !success) {
+      console.log(`✗ ${description}: ${err?.message || 'failed'}`);
+    } else {
+      console.log(`✓ ${description}`);
+      passed++;
+    }
+    
+    // Check if all async tests are done
+    if (completed === total) {
+      console.log(`\n${passed}/${total} tests passed`);
+      fs.unlinkSync(testFile); // Clean up
+      process.exit(passed === total ? 0 : 1);
+    }
+  });
+}
+
+// Test reading all items
+test('readAll works', (done) => {
+  crud.readAll((err, items) => {
+    if (err) return done(err);
+    if (items.length === 2) return done(null, true);
+    done(new Error('wrong count'));
+  });
 });
 
-// Test read by id
-crud.read(1, (err, item) => {
-  if (err) {
-    console.log("✗ read failed:", err.message);
-  } else if (item.name === "Alice") {
-    console.log("✓ read works");
-  } else {
-    console.log("✗ read wrong data");
-  }
+// Test reading single item
+test('read works', (done) => {
+  crud.read(1, (err, item) => {
+    if (err) return done(err);
+    if (item.name === "Ariel") return done(null, true);
+    done(new Error('wrong data'));
+  });
 });
 
-// Test non-existent id
-crud.read(1000, (err, item) => {
-  if (err) {
-    console.log("✓ read error handling works");
-  } else {
-    console.log("✗ should have failed");
-  }
+// Test error handling
+test('read error handling works', (done) => {
+  crud.read(1000, (err, item) => {
+    if (err) return done(null, true); // Should fail
+    done(new Error('should have failed'));
+  });
 });
-
-// Cleanup
-setTimeout(() => {
-  fs.unlinkSync(testFile);
-}, 100);
