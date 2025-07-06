@@ -37,7 +37,7 @@ test('requires file path', () => {
 // Method availability
 test('has required methods', () => {
   const crud = new JsonFileCRUD('./test.json');
-  ['create', 'read', 'update', 'delete'].forEach(method => {
+  ['create', 'findById', 'update', 'delete'].forEach(method => {
     if (typeof crud[method] !== 'function') {
       throw new Error(`missing ${method} method`);
     }
