@@ -47,17 +47,26 @@ test('readAll works', (done) => {
 });
 
 // Test reading single item
-test('read works', (done) => {
-  crud.read(1, (err, item) => {
+test('findById works', (done) => {
+  crud.findById(1, (err, item) => {
     if (err) return done(err);
     if (item.name === "Ariel") return done(null, true);
     done(new Error('wrong data'));
   });
 });
 
+// Test findById method
+test('findById works', (done) => {
+  crud.findById(2, (err, item) => {
+    if (err) return done(err);
+    if (item.name === "Yoni") return done(null, true);
+    done(new Error('wrong data'));
+  });
+});
+
 // Test error handling
-test('read error handling works', (done) => {
-  crud.read(1000, (err, item) => {
+test('findById error handling works', (done) => {
+  crud.findById(1000, (err, item) => {
     if (err) return done(null, true); // Should fail
     done(new Error('should have failed'));
   });
