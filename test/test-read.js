@@ -71,3 +71,12 @@ test('findById error handling works', (done) => {
     done(new Error('should have failed'));
   });
 });
+
+// Test count method
+test('count works', (done) => {
+  crud.count((err, count) => {
+    if (err) return done(err);
+    if (count === 2) return done(null, true);
+    done(new Error('wrong count'));
+  });
+});
