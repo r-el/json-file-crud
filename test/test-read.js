@@ -55,11 +55,11 @@ test('findById works', (done) => {
   });
 });
 
-// Test findById method
-test('findById works', (done) => {
-  crud.findById(2, (err, item) => {
+// Test findBy method
+test('findBy works', (done) => {
+  crud.findBy(item => item.name === "Yoni", (err, items) => {
     if (err) return done(err);
-    if (item.name === "Yoni") return done(null, true);
+    if (items.length === 1 && items[0].name === "Yoni") return done(null, true);
     done(new Error('wrong data'));
   });
 });
