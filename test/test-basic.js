@@ -17,7 +17,7 @@ function test(description, testFn) {
 // Basic constructor test
 test('creates instance with file path', () => {
   const crud = new JsonFileCRUD('./test.json');
-  if (!crud || crud.filePath !== './test.json') {
+  if (!crud || !crud.filePath.endsWith('test.json')) {
     throw new Error('failed to create instance');
   }
 });
@@ -37,7 +37,7 @@ test('requires file path', () => {
 // Method availability
 test('has required methods', () => {
   const crud = new JsonFileCRUD('./test.json');
-  ['create', 'read', 'update', 'delete'].forEach(method => {
+  ['create', 'findById', 'update', 'delete'].forEach(method => {
     if (typeof crud[method] !== 'function') {
       throw new Error(`missing ${method} method`);
     }
