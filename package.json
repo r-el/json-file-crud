@@ -7,11 +7,12 @@
   "type": "module",
   "scripts": {
     "start": "node .",
-    "test": "node test/test-basic.js && node test/test-read.js && node test/test-create.js && node test/test-update.js",
+    "test": "node test/test-basic.js && node test/test-read.js && node test/test-create.js && node test/test-update.js && node test/test-delete.js",
     "test:basic": "node test/test-basic.js",
     "test:read": "node test/test-read.js",
     "test:create": "node test/test-create.js",
     "test:update": "node test/test-update.js",
+    "test:delete": "node test/test-delete.js",
     "prepublishOnly": "npm test"
   },
   "keywords": [
