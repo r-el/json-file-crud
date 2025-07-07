@@ -1,12 +1,11 @@
 # Development files
-test/
-examples/
 .git/
 .gitignore
 
-# Test data
+# Test data (but keep test files)
 **/data/
 test-data/
+examples/data/*.json
 
 # Development dependencies
 node_modules/
