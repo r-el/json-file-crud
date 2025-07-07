@@ -329,7 +329,7 @@ node examples/basic-usage.js
 
 ## TypeScript Support
 
-Type definitions are provided via `lib/json-file-crud.d.ts` so the library can be used comfortably in TypeScript projects with autocompletion and compile-time checks.
+While this library is written in JavaScript, you can use it in TypeScript projects. Type definitions may be added in future versions.
 
 ## File Format
 
