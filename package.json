@@ -2,7 +2,7 @@
   "name": "json-file-crud",
   "version": "1.0.0",
   "title": "JsonFileCRUD",
-  "description": "CRUD operations for JSON files",
+  "description": "A simple, robust, and thread-safe CRUD library for managing JSON objects in files",
   "main": "./lib/json-file-crud.js",
   "type": "module",
   "scripts": {
@@ -22,11 +22,25 @@
     "file",
     "database",
     "async",
-    "callback"
+    "callback",
+    "nodejs",
+    "thread-safe",
+    "queue",
+    "auto-id",
+    "lightweight",
+    "zero-dependencies"
   ],
   "engines": {
     "node": ">=14.0.0"
   },
+  "files": [
+    "lib/",
+    "examples/",
+    "test/",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
   "homepage": "https://github.com/r-el/json-file-crud",
   "repository": {
     "type": "git",
