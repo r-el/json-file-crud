@@ -298,8 +298,26 @@ For larger datasets or high-performance requirements, consider using a dedicated
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! Here are some ways you can help improve JsonFileCRUD:
+
+### Ideas for Contributions
+
+- **TypeScript Support**: Add TypeScript type definitions (.d.ts files)
+- **Async/Await Support**: Add Promise-based API alongside callbacks
+- **Batch Operations**: Add bulk insert/update/delete operations
+- **File Locking**: Add file locking for multi-process safety
+- **Documentation**: Improve documentation and add more examples
+
+### How to Contribute
+
+1. **Fork the Repository**: Create your own fork of the project
+2. **Create a Feature Branch**: `git checkout -b feature/your-feature-name`
+3. **Write Tests**: Ensure your changes are well-tested
+4. **Follow Code Style**: Keep the code clean and consistent
+5. **Update Documentation**: Add or update relevant documentation
+6. **Submit a Pull Request**: Describe your changes clearly
 
 ## License
 
 MIT License - see [LICENSE](./LICENSE) file for details.
+
