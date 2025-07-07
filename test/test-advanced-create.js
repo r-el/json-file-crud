@@ -97,28 +97,28 @@ test('auto-ID with gaps works', (done) => {
   });
 });
 
-// Test concurrent creates with auto-ID
-test('concurrent creates with auto-ID work', (done) => {
+// Test sequential creates with auto-ID
+test('sequential creates with auto-ID work', (done) => {
   let completedCreates = 0;
   const totalCreates = 3;
   const createdIds = [];
   
-  // Create multiple items without IDs at the same time
-  crud.create({ name: "Concurrent1" }, (err, item) => {
+  // Create multiple items without IDs at the same time (they will be queued)
+  crud.create({ name: "Sequential1" }, (err, item) => {
     if (err) return done(err);
     createdIds.push(item.id);
     completedCreates++;
     checkCompletion();
   });
   
-  crud.create({ name: "Concurrent2" }, (err, item) => {
+  crud.create({ name: "Sequential2" }, (err, item) => {
     if (err) return done(err);
     createdIds.push(item.id);
     completedCreates++;
     checkCompletion();
   });
   
-  crud.create({ name: "Concurrent3" }, (err, item) => {
+  crud.create({ name: "Sequential3" }, (err, item) => {
     if (err) return done(err);
     createdIds.push(item.id);
     completedCreates++;
@@ -132,7 +132,7 @@ test('concurrent creates with auto-ID work', (done) => {
       if (uniqueIds.length === 3 && uniqueIds.every(id => typeof id === 'number')) {
         return done(null, true);
       }
-      done(new Error(`concurrent auto-ID failed: ${createdIds}`));
+      done(new Error(`sequential auto-ID failed: ${createdIds}`));
     }
   }
 });
