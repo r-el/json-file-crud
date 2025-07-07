@@ -6,9 +6,13 @@ A simple, robust, and thread-safe CRUD library for managing JSON objects in file
 
 - **Simple API** - Easy to use CRUD operations
 - **Thread-safe** - Sequential operations with automatic queuing
-- **Auto-ID assignment** - Automatic ID generation for new items
-- **Configurable ID field** - Use any field name as the primary key
-- **Comprehensive error handling** - Detailed error messages and validation
+- **Auto-ID assignment** - Automatic ID generation for new items (configurable)
+- **Unique Fields** - Prevent duplicate values in specified fields ✨ *New in v1.1*
+- **Concurrent Operations** - Thread-safe operations with automatic queuing
+- **Custom ID Fields** - Use any field name as the primary key (default: 'id')
+- **Directory Creation** - Automatically creates directories if they don't exist ✨ *New in v1.1*
+- **Convenience Functions** - Helper functions for quick setup ✨ *New in v1.1*
+- **Error Handling** - Comprehensive error handling and detailed error messages
 - **Zero dependencies** - Built with only Node.js built-in modules
 - **ESM support** - Full ES modules support
 
@@ -21,9 +25,19 @@ npm install json-file-crud
 ## Quick Start
 
 ```javascript
-import JsonFileCRUD from 'json-file-crud';
+import JsonFileCRUD, { createCrud } from 'json-file-crud';
 
+// Standard usage
 const db = new JsonFileCRUD('./data.json');
+
+// Quick setup with convenience function
+const db2 = createCrud('./users.json');
+
+// Advanced configuration with unique fields
+const userDb = new JsonFileCRUD('./users.json', {
+  uniqueFields: ['email', 'username'],
+  autoId: true
+});
 
 // Create a new item
 db.create({ name: 'John', age: 30 }, (err, result) => {
@@ -67,16 +81,41 @@ db.delete(1, (err, deletedItem) => {
 
 Creates a new JsonFileCRUD instance.
 
-- `filePath` (string): Path to the JSON file
+- `filePath` (string): Path to the JSON file (directories will be created if they don't exist)
 - `options` (object, optional):
   - `idField` (string): Name of the ID field (default: 'id')
+  - `uniqueFields` (array): Array of field names that must be unique (default: [])
+  - `autoId` (boolean): Enable automatic ID assignment (default: true)
 
 ```javascript
-// Default ID field
+// Default settings
 const db = new JsonFileCRUD('./data.json');
 
 // Custom ID field
 const products = new JsonFileCRUD('./products.json', { idField: 'productId' });
+
+// Unique fields validation
+const users = new JsonFileCRUD('./users.json', { 
+  uniqueFields: ['email', 'username'] 
+});
+
+// Disable auto-ID
+const manualDb = new JsonFileCRUD('./manual.json', { autoId: false });
+
+// Deep directory path (automatically created)
+const deepDb = new JsonFileCRUD('./data/nested/deep/file.json');
+```
+
+### Convenience Functions
+
+#### `createCrud(filePath, options)`
+
+Quick way to create a JsonFileCRUD instance.
+
+```javascript
+import { createCrud } from 'json-file-crud';
+
+const db = createCrud('./data.json', { uniqueFields: ['email'] });
 ```
 
 ### CRUD Operations
@@ -165,6 +204,19 @@ db.delete(1, (err, deleted) => {
 });
 ```
 
+#### `deleteAll(callback)`
+
+Deletes all items from the database.
+
+- `callback` (function): `(error) => {}`
+
+```javascript
+db.deleteAll((err) => {
+  if (err) throw err;
+  console.log('All items deleted');
+});
+```
+
 #### `count(callback)`
 
 Returns the total number of items.
@@ -197,62 +249,44 @@ db.writeAll(newData, (err) => {
 
 ## Advanced Features
 
-### Auto-ID Assignment
+### Unique Fields
 
-When creating items without an ID, JsonFileCRUD automatically assigns the next available numeric ID:
+Prevent duplicate values in specified fields:
 
 ```javascript
-db.create({ name: 'John' }, (err, result) => {
-  // result: { name: 'John', id: 1 }
+const userDb = new JsonFileCRUD('./users.json', {
+  uniqueFields: ['email', 'username']
 });
 
-db.create({ name: 'Jane' }, (err, result) => {
-  // result: { name: 'Jane', id: 2 }
+// This will fail if email already exists
+userDb.create({ 
+  name: 'John', 
+  email: 'john@example.com' 
+}, (err, user) => {
+  // err.message: "Item with email 'john@example.com' already exists"
 });
 ```
 
-### Concurrent Operations
+### Auto-ID Control
 
-All write operations are automatically queued to prevent race conditions:
-
-```javascript
-// These will be executed sequentially, not simultaneously
-db.create({ name: 'User 1' }, callback1);
-db.create({ name: 'User 2' }, callback2);
-db.update(1, { active: true }, callback3);
-```
-
-### Custom ID Fields
-
-You can use any field name as the primary key:
+Disable automatic ID assignment:
 
 ```javascript
-const products = new JsonFileCRUD('./products.json', { idField: 'productId' });
+const db = new JsonFileCRUD('./data.json', { autoId: false });
 
-products.create({ name: 'Laptop', price: 999 }, (err, product) => {
-  // product: { name: 'Laptop', price: 999, productId: 1 }
+// No ID will be auto-generated
+db.create({ name: 'Test' }, (err, item) => {
+  // item: { name: 'Test' } (no id field)
 });
 ```
 
-### Error Handling
+### Directory Creation
 
-JsonFileCRUD provides detailed error messages for common scenarios:
+Automatically creates directories for deep paths:
 
 ```javascript
-// Validation errors
-db.create(null, (err) => {
-  // err.message: "Item must be an object"
-});
-
-// Not found errors
-db.findById(999, (err) => {
-  // err.message: "Item with id 999 not found"
-});
-
-// Duplicate ID errors
-db.create({ id: 1, name: 'Duplicate' }, (err) => {
-  // err.message: "Item with id 1 already exists"
-});
+// This will create ./data/users/ directories if they don't exist
+const db = new JsonFileCRUD('./data/users/profiles.json');
 ```
 
 ## Examples
@@ -260,14 +294,37 @@ db.create({ id: 1, name: 'Duplicate' }, (err) => {
 For comprehensive examples, see the [examples](./examples/) directory:
 
 - **[Basic Usage](./examples/basic-usage.js)** - Simple CRUD operations
-- **[Advanced Features](./examples/advanced-usage.js)** - Concurrent operations, filtering, custom ID fields
-- **[User Management](./examples/user-management.js)** - Real-world application example
+- **[Advanced Features](./examples/advanced-usage.js)** - Concurrent operations, filtering, custom ID fields  
+- **[User Management](./examples/user-management.js)** - Real-world application with unique fields validation
+
+### Quick Examples
+
+```javascript
+// Basic usage with unique fields
+import JsonFileCRUD, { createCrud } from 'json-file-crud';
+
+const userDb = createCrud('./users.json', {
+  uniqueFields: ['email', 'username']
+});
+
+// Delete all users
+userDb.deleteAll((err) => {
+  console.log('All users deleted');
+});
+
+// Example with auto-ID disabled
+const manualDb = new JsonFileCRUD('./manual.json', { autoId: false });
+manualDb.create({ name: 'Test' }, (err, item) => {
+  // item: { name: 'Test' } (no auto-generated ID)
+});
+```
 
 To run examples:
 
 ```bash
-cd examples
-node basic-usage.js
+npm run examples
+# or individually:
+node examples/basic-usage.js
 ```
 
 ## TypeScript Support

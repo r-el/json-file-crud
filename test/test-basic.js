@@ -1,4 +1,5 @@
-import JsonFileCRUD from '../lib/json-file-crud.js';
+import JsonFileCRUD, { createCrud } from '../lib/json-file-crud.js';
+import fs from 'fs';
 
 let passed = 0;
 let total = 0;
@@ -42,6 +43,44 @@ test('has required methods', () => {
       throw new Error(`missing ${method} method`);
     }
   });
+});
+
+// createCrud convenience function
+test('createCrud convenience function works', () => {
+  const testFile = "./test-create-crud.json";
+  
+  // Clean up
+  if (fs.existsSync(testFile)) {
+    fs.unlinkSync(testFile);
+  }
+  
+  const convenienceCrud = createCrud(testFile);
+  
+  if (!convenienceCrud || typeof convenienceCrud.create !== 'function') {
+    throw new Error('createCrud failed to create valid instance');
+  }
+  
+  // Clean up
+  if (fs.existsSync(testFile)) {
+    fs.unlinkSync(testFile);
+  }
+});
+
+// Directory creation
+test('automatically creates directories', () => {
+  const deepPath = "./test-deep/nested/directory/data.json";
+  
+  // Create instance (should create directories)
+  const deepCrud = new JsonFileCRUD(deepPath);
+  
+  if (!deepCrud || !deepCrud.filePath.includes('test-deep')) {
+    // Clean up
+    fs.rmSync("./test-deep", { recursive: true, force: true });
+    throw new Error('failed to create instance with deep path');
+  }
+  
+  // Clean up
+  fs.rmSync("./test-deep", { recursive: true, force: true });
 });
 
 console.log(`\n${passed}/${total} tests passed`);
