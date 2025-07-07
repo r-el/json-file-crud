@@ -20,19 +20,24 @@ db.create({ name: 'John', age: 30 }, (err, result) => {
   console.log('Created:', result);
 });
 
-// Read
-db.read('id', (err, data) => {
-  console.log('Data:', data);
+// Read by ID
+db.findById(1, (err, item) => {
+  console.log('Item:', item);
+});
+
+// Read all
+db.readAll((err, items) => {
+  console.log('All items:', items);
 });
 
 // Update
-db.update('id', { age: 31 }, (err, result) => {
+db.update(1, { age: 31 }, (err, result) => {
   console.log('Updated:', result);
 });
 
 // Delete
-db.delete('id', (err) => {
-  console.log('Deleted');
+db.delete(1, (err, deletedItem) => {
+  console.log('Deleted:', deletedItem);
 });
 ```
 
