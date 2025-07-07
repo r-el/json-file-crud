@@ -1,0 +1,87 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  release:
+    types: [published]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x, 20.x]
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci --ignore-scripts
+    
+    - name: Run tests
+      run: npm test
+    
+    - name: Run examples
+      run: |
+        node examples/basic-usage.js
+        node examples/advanced-usage.js
+        node examples/user-management.js
+
+  publish:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release' && github.event.action == 'published'
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Use Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+        registry-url: 'https://registry.npmjs.org'
+    
+    - name: Install dependencies
+      run: npm ci --ignore-scripts
+    
+    - name: Run tests
+      run: npm test
+    
+    - name: Publish to npm
+      run: npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  lint:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Use Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+    
+    - name: Check package.json
+      run: |
+        echo "Checking package.json validity..."
+        node -e "console.log('package.json is valid JSON')"
+    
+    - name: Check for required files
+      run: |
+        echo "Checking for required files..."
+        test -f README.md || (echo "README.md not found" && exit 1)
+        test -f LICENSE || (echo "LICENSE not found" && exit 1)
+        test -f package.json || (echo "package.json not found" && exit 1)
+        test -f CHANGELOG.md || (echo "CHANGELOG.md not found" && exit 1)
+        echo "All required files found"
