@@ -1,8 +1,8 @@
 {
   "name": "json-file-crud",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "JsonFileCRUD",
-  "description": "A simple, robust, and thread-safe CRUD library for managing JSON objects in files",
+  "description": "A simple, robust, and thread-safe CRUD library for managing JSON objects in files with unique fields, auto-ID, and advanced features",
   "main": "./lib/json-file-crud.js",
   "type": "module",
   "scripts": {
