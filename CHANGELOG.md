@@ -5,6 +5,48 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2025-07-07
+
+### Added
+- **Unique Fields Support** - Prevent duplicate values in specified fields
+  - Configure unique fields via `uniqueFields` option
+  - Automatic validation on create and update operations
+  - Clear error messages for duplicate field values
+- **Auto-ID Toggle** - Control automatic ID assignment
+  - Enable/disable auto-ID with `autoId` option
+  - Default behavior remains unchanged (auto-ID enabled)
+- **deleteAll Method** - Remove all items from the database
+  - Simple `deleteAll(callback)` method
+  - Thread-safe operation through existing queue system
+- **createCrud Convenience Function** - Quick CRUD instance creation
+  - Simplified API: `createCrud(filePath, options)`
+  - Exported as named export for easy access
+- **Automatic Directory Creation** - Create directories if they don't exist
+  - Automatically creates parent directories for file paths
+  - No need to manually create directories before using the library
+
+### Enhanced
+- **Test Suite Reorganization** - Improved test structure
+  - Split tests into logical files by functionality
+  - `test-basic.js` - Basic functionality and convenience features
+  - `test-config-options.js` - Configuration options (uniqueFields, autoId)
+  - `test-delete.js` - Delete operations including deleteAll
+  - Total test count increased to 37 tests
+- **Configuration Options** - Enhanced constructor options
+  - `uniqueFields: string[]` - Array of field names that must be unique
+  - `autoId: boolean` - Enable/disable automatic ID assignment
+  - Backward compatible with existing code
+
+### Changed
+- Package description updated to reflect new features
+- Test scripts updated for reorganized test structure
+
+### Technical Details
+- All new features maintain backward compatibility
+- Thread-safe operations through existing queue system
+- Comprehensive error handling for all new features
+- Zero breaking changes to existing API
+
 ## [1.0.0] - 2025-07-07
 
 ### Added
@@ -55,3 +97,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Batch operations (createMany, updateMany, deleteMany)
 - File locking for multi-process safety
 - Enhanced documentation and examples
+
+---
+
+[1.1.0]: https://github.com/arielweizman/json-file-crud/compare/v1.0.0...v1.1.0
+[1.0.0]: https://github.com/arielweizman/json-file-crud/releases/tag/v1.0.0
