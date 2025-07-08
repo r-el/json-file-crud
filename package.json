@@ -1,14 +1,11 @@
 {
-  "name": "@r-el/json-file-crud",
+  "name": "json-file-crud",
   "version": "1.2.0",
   "title": "JsonFileCRUD",
   "description": "A simple, robust, and thread-safe CRUD library for managing JSON objects in files with unique fields, auto-ID, and advanced features",
   "main": "./lib/json-file-crud.js",
   "types": "./lib/json-file-crud.d.ts",
   "type": "module",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
   "scripts": {
     "start": "node .",
     "test": "node test/test-basic.js && node test/test-read.js && node test/test-create.js && node test/test-update.js && node test/test-delete.js && node test/test-advanced-create.js && node test/test-config-options.js",
