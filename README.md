@@ -12,6 +12,7 @@ A simple, robust, and thread-safe CRUD library for managing JSON objects in file
 - **Custom ID Fields** - Use any field name as the primary key (default: 'id')
 - **Directory Creation** - Automatically creates directories if they don't exist ✨ *New in v1.1*
 - **Convenience Functions** - Helper functions for quick setup ✨ *New in v1.1*
+- **TypeScript Support** - Full TypeScript definitions for IDE support ✨ *New in v1.2*
 - **Error Handling** - Comprehensive error handling and detailed error messages
 - **Zero dependencies** - Built with only Node.js built-in modules
 - **ESM support** - Full ES modules support
@@ -359,11 +360,10 @@ Contributions are welcome! Here are some ways you can help improve JsonFileCRUD:
 
 ### Ideas for Contributions
 
-- **TypeScript Support**: Add TypeScript type definitions (.d.ts files)
 - **Async/Await Support**: Add Promise-based API alongside callbacks
 - **Batch Operations**: Add bulk insert/update/delete operations
 - **File Locking**: Add file locking for multi-process safety
-- **Documentation**: Improve documentation and add more examples
+- **Enhanced Documentation**: Improve documentation and add more examples
 
 ### How to Contribute
 
