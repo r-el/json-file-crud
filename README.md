@@ -5,6 +5,7 @@ A simple, robust, and thread-safe CRUD library for managing JSON objects in file
 ## Features
 
 - **Simple API** - Easy to use CRUD operations
+- **Promise/Async Support** - Full async/await API alongside callback methods ✨ *New in v1.3*
 - **Thread-safe** - Sequential operations with automatic queuing
 - **Auto-ID assignment** - Automatic ID generation for new items (configurable)
 - **Unique Fields** - Prevent duplicate values in specified fields ✨ *New in v1.1*
@@ -72,6 +73,27 @@ db.delete(1, (err, deletedItem) => {
   if (err) throw err;
   console.log('Deleted:', deletedItem);
 });
+```
+
+### Async/Await Usage
+
+```javascript
+// Same operations using async/await
+try {
+  const user = await db.createAsync({ name: 'John', age: 30 });
+  console.log('Created:', user);
+  
+  const foundUser = await db.findByIdAsync(user.id);
+  console.log('Found:', foundUser);
+  
+  const updatedUser = await db.updateAsync(user.id, { age: 31 });
+  console.log('Updated:', updatedUser);
+  
+  const deletedUser = await db.deleteAsync(user.id);
+  console.log('Deleted:', deletedUser);
+} catch (error) {
+  console.error('Error:', error.message);
+}
 ```
 
 ## API Reference
