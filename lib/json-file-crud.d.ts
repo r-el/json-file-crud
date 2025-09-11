@@ -14,6 +14,7 @@ export default class JsonFileCRUD<T = any> {
   readonly autoId: boolean;
   readonly uniqueFields: string[];
 
+  // Callback-based methods
   create(item: T, callback: Callback<T>): void;
   readAll(callback: Callback<T[]>): void;
   findById(id: any, callback: Callback<T>): void;
@@ -24,6 +25,17 @@ export default class JsonFileCRUD<T = any> {
   deleteAll(callback: (err: Error | null) => void): void;
   writeAll(items: T[], callback: (err: Error | null) => void): void;
   processWriteQueue(): void;
+
+  // Promise-based methods
+  createAsync(item: T): Promise<T>;
+  readAllAsync(): Promise<T[]>;
+  findByIdAsync(id: any): Promise<T>;
+  findByAsync(filterFn: (item: T) => boolean): Promise<T[]>;
+  countAsync(): Promise<number>;
+  updateAsync(id: any, data: Partial<T>): Promise<T>;
+  deleteAsync(id: any): Promise<T>;
+  deleteAllAsync(): Promise<void>;
+  writeAllAsync(items: T[]): Promise<void>;
 }
 
 export function createCrud<T = any>(filePath: string, options?: CrudOptions): JsonFileCRUD<T>;

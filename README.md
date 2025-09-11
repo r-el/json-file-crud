@@ -5,6 +5,7 @@ A simple, robust, and thread-safe CRUD library for managing JSON objects in file
 ## Features
 
 - **Simple API** - Easy to use CRUD operations
+- **Promise/Async Support** - Full async/await API alongside callback methods ✨ *New in v1.3*
 - **Thread-safe** - Sequential operations with automatic queuing
 - **Auto-ID assignment** - Automatic ID generation for new items (configurable)
 - **Unique Fields** - Prevent duplicate values in specified fields ✨ *New in v1.1*
@@ -72,6 +73,27 @@ db.delete(1, (err, deletedItem) => {
   if (err) throw err;
   console.log('Deleted:', deletedItem);
 });
+```
+
+### Async/Await Usage
+
+```javascript
+// Same operations using async/await
+try {
+  const user = await db.createAsync({ name: 'John', age: 30 });
+  console.log('Created:', user);
+  
+  const foundUser = await db.findByIdAsync(user.id);
+  console.log('Found:', foundUser);
+  
+  const updatedUser = await db.updateAsync(user.id, { age: 31 });
+  console.log('Updated:', updatedUser);
+  
+  const deletedUser = await db.deleteAsync(user.id);
+  console.log('Deleted:', deletedUser);
+} catch (error) {
+  console.error('Error:', error.message);
+}
 ```
 
 ## API Reference
@@ -248,6 +270,33 @@ db.writeAll(newData, (err) => {
 });
 ```
 
+### Promise-based API
+
+All methods have async counterparts that return Promises. Simply add `Async` to the method name:
+
+#### Async Method Names
+
+All callback methods have async counterparts. Add `Async` to the method name:
+
+```javascript
+// Using async/await
+try {
+  const user = await db.createAsync({ name: 'John', age: 30 });
+  const allUsers = await db.readAllAsync();
+  const foundUser = await db.findByIdAsync(user.id);
+  const updatedUser = await db.updateAsync(user.id, { age: 31 });
+  await db.deleteAsync(user.id);
+} catch (error) {
+  console.error('Operation failed:', error.message);
+}
+
+// Using Promises
+db.createAsync({ name: 'Jane', age: 25 })
+  .then(user => db.findByIdAsync(user.id))
+  .then(foundUser => console.log('Found:', foundUser))
+  .catch(error => console.error('Error:', error.message));
+```
+
 ## Advanced Features
 
 ### Unique Fields
@@ -297,6 +346,7 @@ For comprehensive examples, see the [examples](./examples/) directory:
 - **[Basic Usage](./examples/basic-usage.js)** - Simple CRUD operations
 - **[Advanced Features](./examples/advanced-usage.js)** - Concurrent operations, filtering, custom ID fields  
 - **[User Management](./examples/user-management.js)** - Real-world application with unique fields validation
+- **[Async/Await Demo](./examples/async-demo.js)** - Promise-based API usage with async/await
 
 ### Quick Examples
 
@@ -360,7 +410,6 @@ Contributions are welcome! Here are some ways you can help improve JsonFileCRUD:
 
 ### Ideas for Contributions
 
-- **Async/Await Support**: Add Promise-based API alongside callbacks
 - **Batch Operations**: Add bulk insert/update/delete operations
 - **File Locking**: Add file locking for multi-process safety
 - **Enhanced Documentation**: Improve documentation and add more examples
@@ -377,4 +426,3 @@ Contributions are welcome! Here are some ways you can help improve JsonFileCRUD:
 ## License
 
 MIT License - see [LICENSE](./LICENSE) file for details.
-

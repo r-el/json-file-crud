@@ -2,19 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
-
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [1.3.0] - 2025-09-11
+
+### Added
+
+- **Promise/Async Support** - Full async/await API alongside callback methods
+  - All CRUD methods now have async variants (createAsync, readAllAsync, etc.)
+  - Automatic promisification wrapper for callback-based methods
+  - Complete TypeScript definitions for async methods
+  - New async usage examples and comprehensive test coverage
+- **Enhanced Examples** - Added async/await usage demonstration
 
 ## [1.2.0] - 2025-07-08
 
 ### Added
-- **TypeScript Definitions** - Bundled `lib/json-file-crud.d.ts` for IDE support
 
+- **TypeScript Definitions** - Bundled `lib/json-file-crud.d.ts` for IDE support
 
 ## [1.1.0] - 2025-07-07
 
 ### Added
+
 - **Unique Fields Support** - Prevent duplicate values in specified fields
   - Configure unique fields via `uniqueFields` option
   - Automatic validation on create and update operations
@@ -33,6 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - No need to manually create directories before using the library
 
 ### Enhanced
+
 - **Test Suite Reorganization** - Improved test structure
   - Split tests into logical files by functionality
   - `test-basic.js` - Basic functionality and convenience features
@@ -45,10 +57,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Backward compatible with existing code
 
 ### Changed
+
 - Package description updated to reflect new features
 - Test scripts updated for reorganized test structure
 
 ### Technical Details
+
 - All new features maintain backward compatibility
 - Thread-safe operations through existing queue system
 - Comprehensive error handling for all new features
@@ -57,6 +71,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2025-07-07
 
 ### Added
+
 - Initial release of JsonFileCRUD
 - Complete CRUD operations (Create, Read, Update, Delete)
 - Auto-ID assignment with duplicate prevention
@@ -74,6 +89,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Contributing guidelines with improvement ideas
 
 ### Features
+
 - **create(item, callback)** - Create new items with auto-ID
 - **readAll(callback)** - Read all items from file
 - **findById(id, callback)** - Find item by ID
@@ -84,12 +100,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **writeAll(items, callback)** - Replace all data
 
 ### Performance
+
 - Optimized for small to medium datasets (up to ~10,000 items)
 - Sequential operations prevent race conditions
 - Automatic file creation on first write
 - Memory-efficient data handling
 
 ### Documentation
+
 - Complete README with API reference
 - Multiple practical examples
 - Error handling guide
@@ -99,6 +117,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Future Improvements
+
 - Promise-based API (async/await)
 - Batch operations (createMany, updateMany, deleteMany)
 - File locking for multi-process safety
